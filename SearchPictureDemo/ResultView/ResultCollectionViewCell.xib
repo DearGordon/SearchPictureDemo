@@ -19,7 +19,7 @@
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="n4F-wr-d78">
                         <rect key="frame" x="0.0" y="0.0" width="101" height="106"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YKD-Km-X5i">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YKD-Km-X5i">
                                 <rect key="frame" x="0.0" y="0.0" width="101" height="79.5"/>
                                 <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
@@ -30,6 +30,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="76o-J1-6a8" firstAttribute="height" secondItem="YKD-Km-X5i" secondAttribute="height" multiplier="0.333333" id="mwS-hO-etO"/>
+                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>

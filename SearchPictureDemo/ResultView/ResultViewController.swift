@@ -33,6 +33,22 @@ class ResultViewController: UIViewController {
         self.viewModel = ResultViewModel(withDelegate: self)
         self.resultCollectionView.delegate = self
         self.resultCollectionView.dataSource = self
+
+        self.setCollectionViewLayout()
+
+        ApiManager.shared.getData()
+    }
+
+    func setCollectionViewLayout() {
+        let layout = UICollectionViewFlowLayout()
+
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
+
+        let screenSize = UIScreen.main.bounds
+        let width = (screenSize.size.width - 15)/2
+        layout.itemSize = CGSize(width: width, height: width)
+        self.resultCollectionView.collectionViewLayout = layout
     }
     
 }
@@ -52,6 +68,8 @@ extension ResultViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
         return cell
     }
+
+    
 
 }
 

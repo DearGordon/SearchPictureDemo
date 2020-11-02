@@ -21,6 +21,7 @@
 		543704482546D40F0016BE98 /* KeyWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543704472546D40F0016BE98 /* KeyWord.swift */; };
 		5437044C2546D4D30016BE98 /* ResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5437044B2546D4D30016BE98 /* ResultViewModel.swift */; };
 		54CF818D2546D6AC008A5494 /* ResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CF818C2546D6AC008A5494 /* ResultCollectionViewCell.swift */; };
+		54CF818F2549C12F008A5494 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CF818E2549C12F008A5494 /* ApiManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		543704472546D40F0016BE98 /* KeyWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyWord.swift; sourceTree = "<group>"; };
 		5437044B2546D4D30016BE98 /* ResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewModel.swift; sourceTree = "<group>"; };
 		54CF818C2546D6AC008A5494 /* ResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCollectionViewCell.swift; sourceTree = "<group>"; };
+		54CF818E2549C12F008A5494 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 				5437044B2546D4D30016BE98 /* ResultViewModel.swift */,
 				543704452546D2530016BE98 /* ResultCollectionViewCell.xib */,
 				54CF818C2546D6AC008A5494 /* ResultCollectionViewCell.swift */,
+				54CF818E2549C12F008A5494 /* ApiManager.swift */,
 			);
 			path = ResultView;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				543704442546D0CD0016BE98 /* ResultViewController.swift in Sources */,
+				54CF818F2549C12F008A5494 /* ApiManager.swift in Sources */,
 				5437044C2546D4D30016BE98 /* ResultViewModel.swift in Sources */,
 				543704482546D40F0016BE98 /* KeyWord.swift in Sources */,
 				543704162546C3900016BE98 /* SearchViewController.swift in Sources */,

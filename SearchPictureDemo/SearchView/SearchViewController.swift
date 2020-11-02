@@ -42,6 +42,7 @@ class SearchViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        //Just for checking resultPage
         self.pushToResultPage()
     }
 
