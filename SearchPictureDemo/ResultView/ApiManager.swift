@@ -32,28 +32,19 @@ class ApiManager {
         
         guard let url = URL(string: "https://www.flickr.com/services") else { return }
 
-        var request = URLRequest(url: url)
+        var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
+        urlComponents?.queryItems = [URLQueryItem(name: "", value: "")]
+        var request = URLRequest(url: urlComponents!.url!)
         request.httpMethod = "GET"
-        do {
-            let requestData = try JSONEncoder().encode(ResquestModel())
-            request.httpBody = requestData
-        } catch {
-            print("encode 失敗")
-        }
-
+       
         let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: url) { (data, rsp, error) in
+        
+        let task = session.dataTask(with: request) { (data, rsp, error) in
 
             guard let data = data else {
                 print(error!.localizedDescription)
                 return
             }
-            
-            var s = String(data: data, encoding: .utf8)
-            s = s?.replacingOccurrences(of: "\\", with: "")
-//
-//            let myData = s?.data(using: .utf8)
-//            print(s!)
             
             do {
                 let array = try XMLDecoder().decode(Rsp.self, from: data)
