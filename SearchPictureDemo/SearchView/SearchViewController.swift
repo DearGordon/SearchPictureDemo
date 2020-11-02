@@ -47,7 +47,7 @@ class SearchViewController: UIViewController {
     }
 
     func pushToResultPage() {
-        if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: ResultViewKey.resultViewControllerId) as? ResultViewController {
+        if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: ResultViewKey.viewControllerId) as? ResultViewController {
 
             vc.view.backgroundColor = .red
             self.navigationController?.pushViewController(vc, animated: true)

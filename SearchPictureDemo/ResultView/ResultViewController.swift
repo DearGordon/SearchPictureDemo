@@ -62,7 +62,7 @@ extension ResultViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         guard let viewModel = self.viewModel,
-            let cell = self.resultCollectionView.dequeueReusableCell(withReuseIdentifier: ResultViewKey.resultCellId, for: indexPath) as? ResultCollectionViewCell else { return ResultCollectionViewCell() }
+            let cell = self.resultCollectionView.dequeueReusableCell(withReuseIdentifier: ResultViewKey.cellId, for: indexPath) as? ResultCollectionViewCell else { return ResultCollectionViewCell() }
 
         cell.setResultCell(with: viewModel.resultArray[indexPath.row])
 

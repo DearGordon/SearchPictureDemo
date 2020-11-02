@@ -26,10 +26,13 @@ class ApiManager {
     }
 
     func getData() {
+        /*
+        https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=e7ea248224929fea196315b753b2a3ca&text=dog&max_taken_date=5&media=photos&format=rest
+        */
+        
+        guard let url = URL(string: "https://www.flickr.com/services") else { return }
 
-        let url = URL(string: "https://www.flickr.com/services")
-
-        var request = URLRequest(url: url!)
+        var request = URLRequest(url: url)
         request.httpMethod = "GET"
         do {
             let requestData = try JSONEncoder().encode(ResquestModel())
@@ -39,34 +42,28 @@ class ApiManager {
         }
 
         let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: url!) { (data, rsp, error) in
+        let task = session.dataTask(with: url) { (data, rsp, error) in
 
             guard let data = data else {
                 print(error!.localizedDescription)
                 return
             }
-
+            
+            var s = String(data: data, encoding: .utf8)
+            s = s?.replacingOccurrences(of: "\\", with: "")
+//
+//            let myData = s?.data(using: .utf8)
+//            print(s!)
+            
             do {
-                let array = try JSONDecoder().decode(ResquestModel.self, from: data)
+                let array = try XMLDecoder().decode(Rsp.self, from: data)
                 print(array)
             } catch {
-
+                print(error.localizedDescription)
             }
         }
 
         task.resume()
 
     }
-}
-
-struct ResultDataModel: Codable {
-    var id: String?
-    var owner: String?
-    var secret: String?
-    var server: String?
-    var farm: Int?
-    var title: String?
-    var ispublic: Int?
-    var isfriend: Int?
-    var isfamily: Int?
 }

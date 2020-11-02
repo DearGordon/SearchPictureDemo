@@ -7,6 +7,6 @@
 //
 
 enum ResultViewKey {
-    static var resultCellId = "ResultCell"
-    static var resultViewControllerId = "ResultViewController"
+    static var cellId = "ResultCell"
+    static var viewControllerId = "ResultViewController"
 }
