@@ -8,6 +8,16 @@
 
 import UIKit
 
+
+enum ApiRequest: String {
+    case api_key = "api_key"
+    case text = "text"
+    case max_taken_date = "max_taken_date"
+    case media = "media"
+    case format = "format"
+    case method = "method"
+}
+
 class ApiManager {
 
     //key： e7ea248224929fea196315b753b2a3ca
@@ -25,15 +35,18 @@ class ApiManager {
         var media = "photos"
     }
 
-    func getData() {
-        /*
-        https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=e7ea248224929fea196315b753b2a3ca&text=dog&max_taken_date=5&media=photos&format=rest
-        */
-        
-        guard let url = URL(string: "https://www.flickr.com/services") else { return }
+    func getData(completion: @escaping ((Result<[Photo]?, Error>) -> Void)) {
 
-        var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
-        urlComponents?.queryItems = [URLQueryItem(name: "", value: "")]
+        guard let url = URL(string: "https://www.flickr.com/services/rest/") else { return }
+
+        var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        urlComponents?.queryItems = [URLQueryItem(name: "api_key", value: "e7ea248224929fea196315b753b2a3ca"),
+                                     URLQueryItem(name: "text", value: "dog"),
+                                     URLQueryItem(name: "max_taken_date", value: "5"),
+                                     URLQueryItem(name: "media", value: "photos"),
+                                     URLQueryItem(name: "format", value: "rest"),
+                                     URLQueryItem(name: "method", value: "flickr.photos.search")
+        ]
         var request = URLRequest(url: urlComponents!.url!)
         request.httpMethod = "GET"
        
@@ -47,10 +60,12 @@ class ApiManager {
             }
             
             do {
-                let array = try XMLDecoder().decode(Rsp.self, from: data)
-                print(array)
+                let rsp = try XMLDecoder().decode(Rsp.self, from: data)
+
+                completion(.success(rsp.photos?.photo))
             } catch {
                 print(error.localizedDescription)
+                completion(.failure(error))
             }
         }
 

@@ -9,8 +9,8 @@
 import UIKit
 
 protocol ResultDataProtocol {
-    var title: String { get }
-    var picture: UIImage { get }
+    var pictureTitle: String { get }
+    var pictureUrl: URL? { get }
 }
 
 protocol ResultViewModelProtocol: class {
@@ -20,7 +20,7 @@ protocol ResultViewModelProtocol: class {
 
 class ResultViewController: UIViewController {
 
-    @IBOutlet weak var resultCollectionView: UICollectionView!
+    @IBOutlet weak var collectionView: UICollectionView!
 
     var viewModel: ResultViewModelProtocol?
 
@@ -28,15 +28,14 @@ class ResultViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.resultCollectionView.register(UINib(nibName: "ResultCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ResultCell")
+        self.collectionView.register(UINib(nibName: "ResultCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ResultCell")
 
         self.viewModel = ResultViewModel(withDelegate: self)
-        self.resultCollectionView.delegate = self
-        self.resultCollectionView.dataSource = self
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
 
         self.setCollectionViewLayout()
 
-        ApiManager.shared.getData()
     }
 
     func setCollectionViewLayout() {
@@ -48,7 +47,7 @@ class ResultViewController: UIViewController {
         let screenSize = UIScreen.main.bounds
         let width = (screenSize.size.width - 15)/2
         layout.itemSize = CGSize(width: width, height: width)
-        self.resultCollectionView.collectionViewLayout = layout
+        self.collectionView.collectionViewLayout = layout
     }
     
 }
@@ -62,7 +61,7 @@ extension ResultViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         guard let viewModel = self.viewModel,
-            let cell = self.resultCollectionView.dequeueReusableCell(withReuseIdentifier: ResultViewKey.cellId, for: indexPath) as? ResultCollectionViewCell else { return ResultCollectionViewCell() }
+            let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: ResultViewKey.cellId, for: indexPath) as? ResultCollectionViewCell else { return ResultCollectionViewCell() }
 
         cell.setResultCell(with: viewModel.resultArray[indexPath.row])
 
@@ -74,5 +73,9 @@ extension ResultViewController: UICollectionViewDelegate, UICollectionViewDataSo
 }
 
 extension ResultViewController: ResultViewModelDelegate {
-
+    func reloadView() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
 }

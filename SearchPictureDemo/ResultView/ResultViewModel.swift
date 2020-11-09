@@ -9,23 +9,7 @@
 import UIKit
 
 protocol ResultViewModelDelegate: class {
-
-}
-
-struct ResultData {
-    var image: UIImage
-    var text: String
-}
-
-extension ResultData: ResultDataProtocol {
-
-    var title: String {
-        return text
-    }
-
-    var picture: UIImage {
-        return image
-    }
+    func reloadView()
 }
 
 class ResultViewModel {
@@ -36,19 +20,24 @@ class ResultViewModel {
 
     init(withDelegate delegate: ResultViewModelDelegate) {
         self.delegate = delegate
-        self.makeFakeData()
-    }
-
-    func makeFakeData() {
-        let image = UIImage(named: "hamburger")!
-        let text = "測試"
-
-        let data = ResultData(image: image, text: text)
-        for _ in 0...9 {
-
-            dataArray.append(data)
+        self.getData {
+            self.delegate?.reloadView()
         }
     }
+
+    func getData(completion: @escaping (() -> Void)) {
+        ApiManager.shared.getData { (result) in
+            switch result {
+            case .success(let data):
+                guard let data = data else { return }
+                self.dataArray = data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            completion()
+        }
+    }
+
 }
 
 extension ResultViewModel: ResultViewModelProtocol {
