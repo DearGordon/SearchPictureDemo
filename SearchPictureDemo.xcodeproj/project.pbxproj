@@ -187,6 +187,7 @@
 				543704132546C3900016BE98 /* SceneDelegate.swift */,
 				543704172546C3900016BE98 /* Main.storyboard */,
 				543704472546D40F0016BE98 /* KeyWord.swift */,
+				54CF818E2549C12F008A5494 /* ApiManager.swift */,
 				5437044A2546D49D0016BE98 /* SearchView */,
 				543704492546D4870016BE98 /* ResultView */,
 				5437041A2546C3900016BE98 /* Assets.xcassets */,
@@ -222,7 +223,6 @@
 				5437044B2546D4D30016BE98 /* ResultViewModel.swift */,
 				543704452546D2530016BE98 /* ResultCollectionViewCell.xib */,
 				54CF818C2546D6AC008A5494 /* ResultCollectionViewCell.swift */,
-				54CF818E2549C12F008A5494 /* ApiManager.swift */,
 				4AC73F75254FF59700AE6D6B /* Model */,
 			);
 			path = ResultView;

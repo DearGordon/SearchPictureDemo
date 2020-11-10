@@ -29,12 +29,11 @@ struct Photo: Codable {
     var isfamily: String?
     
 
-    func photoURL() -> URL? {
+    func photoURL() -> String? {
         //https://live.staticflickr.com/{server-id}/{id}_{secret}_{size-suffix}.jpg
         guard let server = server, let id = id, let secret = secret else { return nil }
         let urlString = "https://live.staticflickr.com/\(server)/\(id)_\(secret).jpg"
-        let url = URL(string: urlString)
-        return url
+        return urlString
     }
 }
 
@@ -43,7 +42,7 @@ extension Photo: ResultDataProtocol {
         return title ?? "empty text"
     }
 
-    var pictureUrl: URL? {
+    var pictureUrl: String? {
         return photoURL()
     }
 

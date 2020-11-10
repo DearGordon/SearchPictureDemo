@@ -10,7 +10,7 @@ import UIKit
 
 protocol ResultDataProtocol {
     var pictureTitle: String { get }
-    var pictureUrl: URL? { get }
+    var pictureUrl: String? { get }
 }
 
 protocol ResultViewModelProtocol: class {

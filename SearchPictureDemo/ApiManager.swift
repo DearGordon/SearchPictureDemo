@@ -8,14 +8,29 @@
 
 import UIKit
 
+enum QueryItem {
+    case text(text: String)
+    case per_page(count: Int)
+    case page(number: Int)
 
-enum ApiRequest: String {
-    case api_key = "api_key"
-    case text = "text"
-    case max_taken_date = "max_taken_date"
-    case media = "media"
-    case format = "format"
-    case method = "method"
+    func query() -> URLQueryItem {
+        switch self {
+        case .text(text: let text):
+            return URLQueryItem(name: "text", value: text)
+        case .per_page(count: let count):
+            return URLQueryItem(name: "per_page", value: "\(count)")
+        case .page(number: let number):
+            return URLQueryItem(name: "page", value: "\(number)")
+        }
+    }
+}
+
+enum FlickrRequest {
+    case photoSearch([QueryItem])
+
+    func url() {
+
+    }
 }
 
 class ApiManager {
@@ -41,9 +56,6 @@ class ApiManager {
 
         var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems = [URLQueryItem(name: "api_key", value: "e7ea248224929fea196315b753b2a3ca"),
-                                     URLQueryItem(name: "text", value: "dog"),
-                                     URLQueryItem(name: "max_taken_date", value: "5"),
-                                     URLQueryItem(name: "media", value: "photos"),
                                      URLQueryItem(name: "format", value: "rest"),
                                      URLQueryItem(name: "method", value: "flickr.photos.search")
         ]
@@ -61,6 +73,10 @@ class ApiManager {
             
             do {
                 let rsp = try XMLDecoder().decode(Rsp.self, from: data)
+
+                if let count = rsp.photos?.photo?.count {
+                    print("下載了\(count)筆資料")
+                }
 
                 completion(.success(rsp.photos?.photo))
             } catch {
