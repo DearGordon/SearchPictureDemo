@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SearchViewModelDelegate: class {
+protocol SearchViewModelDelegate: UIViewController {
 
 }
 
@@ -27,4 +27,11 @@ class SearchViewModel: NSObject {
 
 extension SearchViewModel: SearchViewModelProtocol {
     
+    func pushToResultPage() {
+        if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: ResultViewKey.viewControllerId) as? ResultViewController {
+            
+            vc.view.backgroundColor = .red
+            self.delegate?.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 }

@@ -26,16 +26,24 @@ class ResultViewModel {
     }
 
     func getData(completion: @escaping (() -> Void)) {
-        ApiManager.shared.getData { (result) in
-            switch result {
-            case .success(let data):
-                guard let data = data else { return }
-                self.dataArray = data
-            case .failure(let error):
-                print(error.localizedDescription)
+        
+        do {
+            try ApiManager.shared.getData { (result) in
+                switch result {
+                case .success(let data):
+                    guard let data = data else { return }
+                    self.dataArray = data
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+                completion()
             }
-            completion()
+            
+        } catch {
+            print(error)
         }
+        
+        
     }
 
 }

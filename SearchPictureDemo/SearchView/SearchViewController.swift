@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SearchViewModelProtocol {
-
+    func pushToResultPage()
 }
 
 class SearchViewController: UIViewController {
@@ -21,8 +21,8 @@ class SearchViewController: UIViewController {
     
     @IBAction func searchButtonAction(_ sender: Any) {
         guard isSearchable else { return }
-
-        self.pushToResultPage()
+        
+        self.viewModel?.pushToResultPage()
     }
 
     var viewModel: SearchViewModelProtocol?
@@ -42,16 +42,9 @@ class SearchViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         //Just for checking resultPage
-        self.pushToResultPage()
-    }
-
-    func pushToResultPage() {
-        if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: ResultViewKey.viewControllerId) as? ResultViewController {
-
-            vc.view.backgroundColor = .red
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+        self.viewModel?.pushToResultPage()
     }
 
     func detectTextFieldChanged() {

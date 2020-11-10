@@ -8,51 +8,52 @@
 
 import UIKit
 
-enum QueryItem {
-    case text(text: String)
-    case per_page(count: Int)
-    case page(number: Int)
+protocol EndPointType {
+    var baseURL: URL { get }
+    var path: String { get }
+    var httpMethod: HTTPMeth { get }
+    
+}
 
-    func query() -> URLQueryItem {
-        switch self {
-        case .text(text: let text):
-            return URLQueryItem(name: "text", value: text)
-        case .per_page(count: let count):
-            return URLQueryItem(name: "per_page", value: "\(count)")
-        case .page(number: let number):
-            return URLQueryItem(name: "page", value: "\(number)")
-        }
-    }
+enum HTTPMeth: String {
+    case get  = "GET"
+    case post = "POST"
+}
+
+enum NetworkError: String, Error {
+    case missingURL = "URL is nil."
 }
 
 enum FlickrRequest {
-    case photoSearch([QueryItem])
-
-    func url() {
-
+    case photoSearch(text: String, perPage: Int, page: Int)
+    
+    private func querys() -> [URLQueryItem] {
+        var querys: [URLQueryItem] = []
+        
+        switch self {
+        case .photoSearch(text: let text, perPage: let perPage, page: let page):
+            querys.append(query(name: "text", value: text))
+            querys.append(query(name: "per_page", value: "\(perPage)"))
+            querys.append(query(name: "page", value: "\(page)"))
+        }
+        return querys
+    }
+    
+    private func query(name: String, value: String) -> URLQueryItem {
+        return URLQueryItem(name: name, value: value)
     }
 }
 
 class ApiManager {
 
-    //key： e7ea248224929fea196315b753b2a3ca
-    //密鑰： be10ecd3e7c6640a
-
     static var shared = ApiManager()
     private var session = URLSession(configuration: .default)
 
     private init() {}
+    
+    func getData(completion: @escaping ((Result<[Photo]?, Error>) -> Void)) throws {
 
-    struct ResquestModel: Codable {
-        var api_key: String = "e7ea248224929fea196315b753b2a3ca"
-        var text: String = "dog"
-        var max_taken_date: Int = 5
-        var media = "photos"
-    }
-
-    func getData(completion: @escaping ((Result<[Photo]?, Error>) -> Void)) {
-
-        guard let url = URL(string: "https://www.flickr.com/services/rest/") else { return }
+        guard let url = URL(string: "https://www.flickr.com/services/rest/") else { throw NetworkError.missingURL }
 
         var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems = [URLQueryItem(name: "api_key", value: "e7ea248224929fea196315b753b2a3ca"),
@@ -86,6 +87,5 @@ class ApiManager {
         }
 
         task.resume()
-
     }
 }
