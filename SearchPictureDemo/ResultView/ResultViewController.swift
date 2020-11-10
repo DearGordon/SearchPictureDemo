@@ -16,18 +16,21 @@ protocol ResultDataProtocol {
 protocol ResultViewModelProtocol: class {
     var resultArray: [ResultDataProtocol] { get }
     var numberOfItemsInSection: Int { get }
+    func getData(text: String, perPage: Int, page: Int, completion: @escaping (() -> Void))
 }
+
+typealias SearchInfo = (text: String, page: Int, perPage: Int)
 
 class ResultViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
 
     var viewModel: ResultViewModelProtocol?
-
+    var searchInfo: SearchInfo?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("Result didload")
         self.collectionView.register(UINib(nibName: "ResultCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ResultCell")
 
         self.viewModel = ResultViewModel(withDelegate: self)
@@ -35,7 +38,21 @@ class ResultViewController: UIViewController {
         self.collectionView.dataSource = self
 
         self.setCollectionViewLayout()
+    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.getData()
+    }
+
+    func getData() {
+        guard let searchInfo = self.searchInfo else { return }
+        self.viewModel?.getData(text: searchInfo.text, perPage: searchInfo.perPage, page: searchInfo.page, completion: {
+
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        })
     }
 
     func setCollectionViewLayout() {
@@ -73,9 +90,9 @@ extension ResultViewController: UICollectionViewDelegate, UICollectionViewDataSo
 }
 
 extension ResultViewController: ResultViewModelDelegate {
-    func reloadView() {
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
-    }
+//    func reloadView() {
+//        DispatchQueue.main.async {
+//            self.collectionView.reloadData()
+//        }
+//    }
 }

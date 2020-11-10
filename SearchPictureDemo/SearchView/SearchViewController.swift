@@ -26,6 +26,7 @@ class SearchViewController: UIViewController {
     }
 
     var viewModel: SearchViewModelProtocol?
+    var page = 1
 
     var isSearchable = false {
         didSet {
@@ -38,13 +39,6 @@ class SearchViewController: UIViewController {
 
         self.viewModel = SearchViewModel(withDelegate: self)
         self.detectTextFieldChanged()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        //Just for checking resultPage
-        self.viewModel?.pushToResultPage()
     }
 
     func detectTextFieldChanged() {
@@ -69,6 +63,13 @@ class SearchViewController: UIViewController {
 
 }
 
-extension SearchViewController: SearchViewModelDelegate {
+extension SearchViewController: SearchViewModelDataSource {
 
+    func searchInfo() -> SearchInfo {
+        let text = self.searchTextField.text ?? ""
+        let perPage = Int(self.numberOfCellTextField.text ?? "0") ?? 0
+        let page = self.page
+
+        return SearchInfo(text: text, page: page, perPage: perPage)
+    }
 }

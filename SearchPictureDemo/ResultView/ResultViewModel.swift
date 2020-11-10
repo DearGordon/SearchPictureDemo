@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ResultViewModelDelegate: class {
-    func reloadView()
+    
 }
 
 class ResultViewModel {
@@ -20,31 +20,9 @@ class ResultViewModel {
 
     init(withDelegate delegate: ResultViewModelDelegate) {
         self.delegate = delegate
-        self.getData {
-            self.delegate?.reloadView()
-        }
     }
 
-    func getData(completion: @escaping (() -> Void)) {
-        
-        do {
-            try ApiManager.shared.getData { (result) in
-                switch result {
-                case .success(let data):
-                    guard let data = data else { return }
-                    self.dataArray = data
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-                completion()
-            }
-            
-        } catch {
-            print(error)
-        }
-        
-        
-    }
+
 
 }
 
@@ -56,6 +34,27 @@ extension ResultViewModel: ResultViewModelProtocol {
 
     var numberOfItemsInSection: Int {
         return dataArray.count
+    }
+
+    func getData(text: String, perPage: Int, page: Int, completion: @escaping (() -> Void)) {
+
+        do {
+            try ApiManager.shared.getData(text: text, perPage: perPage, page: page, completion: { (result) in
+                switch result {
+                case .success(let data):
+                    guard let data = data else { return }
+                    self.dataArray = data
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+                completion()
+            })
+
+        } catch {
+            print(error)
+        }
+
+
     }
 
 }

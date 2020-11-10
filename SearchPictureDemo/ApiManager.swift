@@ -27,7 +27,7 @@ enum NetworkError: String, Error {
 enum FlickrRequest {
     case photoSearch(text: String, perPage: Int, page: Int)
     
-    private func querys() -> [URLQueryItem] {
+    func querys() -> [URLQueryItem] {
         var querys: [URLQueryItem] = []
         
         switch self {
@@ -51,7 +51,7 @@ class ApiManager {
 
     private init() {}
     
-    func getData(completion: @escaping ((Result<[Photo]?, Error>) -> Void)) throws {
+    func getData(text: String, perPage: Int, page: Int, completion: @escaping ((Result<[Photo]?, Error>) -> Void)) throws {
 
         guard let url = URL(string: "https://www.flickr.com/services/rest/") else { throw NetworkError.missingURL }
 
@@ -60,6 +60,12 @@ class ApiManager {
                                      URLQueryItem(name: "format", value: "rest"),
                                      URLQueryItem(name: "method", value: "flickr.photos.search")
         ]
+        let querys = FlickrRequest.photoSearch(text: text, perPage: perPage, page: page).querys()
+
+        for query in querys {
+            urlComponents?.queryItems?.append(query)
+        }
+
         var request = URLRequest(url: urlComponents!.url!)
         request.httpMethod = "GET"
        
