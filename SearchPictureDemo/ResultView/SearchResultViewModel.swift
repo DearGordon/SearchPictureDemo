@@ -22,9 +22,7 @@ class SearchResultViewModel {
     ///   - searchInfo: 輸入搜尋條件
     ///   - completion: 下載完搜尋結果後
     private func getSearchResult(searchInfo: SearchInfo, completion: @escaping (() -> Void)) {
-
-        self.dataArray.removeAll()
-
+        
         do {
             try ApiManager.shared.getData(searchInfo: searchInfo, completion: { (result) in
                 switch result {
