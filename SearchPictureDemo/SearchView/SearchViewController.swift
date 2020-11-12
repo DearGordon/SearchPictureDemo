@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SearchViewModelProtocol {
-    func pushToResultPage()
+    func pushToResultPage(from viewController: SearchViewController)
 }
 
 class SearchViewController: UIViewController {
@@ -22,7 +22,7 @@ class SearchViewController: UIViewController {
     @IBAction func searchButtonAction(_ sender: Any) {
         guard isSearchable else { return }
         
-        self.viewModel?.pushToResultPage()
+        self.viewModel?.pushToResultPage(from: self)
     }
 
     var viewModel: SearchViewModelProtocol?

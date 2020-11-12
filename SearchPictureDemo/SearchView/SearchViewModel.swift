@@ -20,23 +20,28 @@ class SearchViewModel: NSObject {
         self.dataSource = delegate
     }
 
-    
+    private func initResultViewControkller() -> ResultViewController? {
+
+        guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: ResultViewKey.viewControllerId) as? ResultViewController else { return nil }
+        vc.view.backgroundColor = .red
+
+        if let searchInfo = self.dataSource?.searchInfo() {
+            vc.resultMode = .Searching(searchInfo: searchInfo)
+        }
+
+        return vc
+    }
 
 }
 
 
 extension SearchViewModel: SearchViewModelProtocol {
     
-    func pushToResultPage() {
-        if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: ResultViewKey.viewControllerId) as? ResultViewController {
-            print("result didinit")
-            vc.view.backgroundColor = .red
-            if let searchInfo = self.dataSource?.searchInfo() {
-                vc.resultMode = .Searching(searchInfo: searchInfo)
-            }
-            print("result didnt push")
-            //TODO: 這裡不會是datasource
-            self.dataSource?.navigationController?.pushViewController(vc, animated: true)
-        }
+    func pushToResultPage(from viewController: SearchViewController) {
+
+        guard let vc = self.initResultViewControkller() else { return }
+        //TODO: 這裡不會是datasource
+        viewController.navigationController?.pushViewController(vc, animated: true)
+
     }
 }

@@ -8,25 +8,22 @@
 
 import UIKit
 
-protocol ResultViewModelDelegate: class {
-    
-}
+class SearchResultViewModel {
 
-class ResultViewModel {
+    private var dataArray: [ResultDataProtocol] = []
+    private var searchInfo: SearchInfo
 
-    var dataArray: [ResultDataProtocol] = []
-
-    weak var delegate: ResultViewModelDelegate?
-
-    init(withDelegate delegate: ResultViewModelDelegate) {
-        self.delegate = delegate
-    }
-    
-    private func getFavoritResult(completion: (() -> Void)) {
-        
+    init(searchInfo: SearchInfo) {
+        self.searchInfo = searchInfo
     }
 
+    /// 從網路中
+    /// - Parameters:
+    ///   - searchInfo: 輸入搜尋條件
+    ///   - completion: 下載完搜尋結果後
     private func getSearchResult(searchInfo: SearchInfo, completion: @escaping (() -> Void)) {
+
+        self.dataArray.removeAll()
 
         do {
             try ApiManager.shared.getData(searchInfo: searchInfo, completion: { (result) in
@@ -34,6 +31,7 @@ class ResultViewModel {
                 case .success(let data):
                     guard let data = data else { return }
                     self.dataArray = data
+
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
@@ -47,7 +45,7 @@ class ResultViewModel {
 
 }
 
-extension ResultViewModel: ResultViewModelProtocol {
+extension SearchResultViewModel: ResultViewModelProtocol {
 
     var resultArray: [ResultDataProtocol] {
         return dataArray
@@ -57,17 +55,10 @@ extension ResultViewModel: ResultViewModelProtocol {
         return dataArray.count
     }
 
-    func getPhotosData(by mode: ResultViewControllerMode, completion: @escaping (() -> Void)) {
-        
-        switch mode {
-        case .Searching(searchInfo: let searchInfo):
-            self.getSearchResult(searchInfo: searchInfo) {
-                completion()
-            }
-        case .Favorited:
-            self.getFavoritResult {
-                completion()
-            }
+    func getPhotosData(completion: @escaping (() -> Void)) {
+
+        self.getSearchResult(searchInfo: self.searchInfo) {
+            completion()
         }
     }
 
