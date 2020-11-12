@@ -19,7 +19,7 @@ protocol ResultViewModelProtocol: class {
     func getPhotosData(completion: @escaping (() -> Void))
 }
 
-enum ResultViewControllerMode {
+enum ResultMode {
     case Searching(searchInfo: SearchInfo)
     case Favorited
 }
@@ -31,30 +31,33 @@ class ResultViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
 
     private var viewModel: ResultViewModelProtocol?
-    var resultMode: ResultViewControllerMode = .Favorited {
+
+    /// 設定Result結果
+    var resultMode: ResultMode = .Favorited {
         didSet {
-            self.setViewModel(mode: resultMode)
+            self.setModel(resultMode)
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.setViewModel(mode: resultMode)
-        self.setRefreshControl()
+        self.setModel(resultMode)
         self.setCollectionView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("ViewWillAppear")
         self.loadPhotosData()
     }
 
-    func setViewModel(mode: ResultViewControllerMode) {
-        switch mode {
+    private func setModel(_ mode: ResultMode) {
 
+        switch mode {
         case .Searching(searchInfo: let searchInfo):
             self.viewModel = SearchResultViewModel(searchInfo: searchInfo)
+            self.setRefreshControl()
         case .Favorited:
             self.viewModel = FavoritedViewModel()
         }
@@ -78,11 +81,9 @@ class ResultViewController: UIViewController {
         layout.itemSize = CGSize(width: width, height: width)
         self.collectionView.collectionViewLayout = layout
     }
-    
-    //TODO: 下拉重新打API更新
+
     //TODO: 滑到最底時，秀出下一頁
     //https://franksios.medium.com/ios-uitableview-%E5%88%86%E9%A0%81-%E6%BB%91%E8%87%B3%E5%88%97%E8%A1%A8%E6%9C%80%E5%BE%8C%E4%B8%80%E7%AD%86%E4%B8%8A%E6%8B%89%E8%BC%89%E5%85%A5%E6%9B%B4%E5%A4%9A%E8%B3%87%E6%96%99-loading-more-69ee25eae045
-    //TODO: 與我的最愛共用此頁
     
     private func setRefreshControl() {
         let refreshControl = UIRefreshControl()
@@ -91,16 +92,15 @@ class ResultViewController: UIViewController {
     }
     
     @objc func doRefreshthing() {
-        print("refreshing")
-        self.collectionView.refreshControl?.endRefreshing()
+        self.loadPhotosData()
     }
 
     private func loadPhotosData() {
-        
         self.viewModel?.getPhotosData(completion: {
-            //finish load data, ready for reload collection view
             DispatchQueue.main.async {
+                print("拿到資料開始重新整理")
                 self.collectionView.reloadData()
+                self.collectionView.refreshControl?.endRefreshing()
             }
         })
     }
@@ -110,11 +110,14 @@ class ResultViewController: UIViewController {
 extension ResultViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.viewModel?.numberOfItemsInSection ?? 0
+
+        let number = self.viewModel?.numberOfItemsInSection ?? 0
+        print("我要顯示\(number)筆資料")
+        return number
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+        
         guard let viewModel = self.viewModel,
             let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: ResultViewKey.cellId, for: indexPath) as? ResultCollectionViewCell else { return ResultCollectionViewCell() }
 
@@ -122,7 +125,5 @@ extension ResultViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
         return cell
     }
-
-    
 
 }

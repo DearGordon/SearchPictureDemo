@@ -10,22 +10,26 @@ import UIKit
 
 class FavoritedViewModel: NSObject {
 
+    private var dataArray: [ResultDataProtocol] = []
+
     /// 從我的最愛中下載下來
     /// - Parameter completion: 下載完我的最愛後
     private func getFavoritResult(completion: (() -> Void)) {
-
+        for _ in 0...4 {
+            dataArray.append(FakeData())
+        }
+        
     }
 
 }
 
 extension FavoritedViewModel: ResultViewModelProtocol {
     var resultArray: [ResultDataProtocol] {
-        let array: [ResultDataProtocol] = []
-        return array
+        return self.dataArray
     }
 
     var numberOfItemsInSection: Int {
-        return 1
+        return self.dataArray.count
     }
 
     func getPhotosData(completion: @escaping (() -> Void)) {

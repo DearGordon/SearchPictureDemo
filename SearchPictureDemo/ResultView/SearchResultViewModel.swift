@@ -17,7 +17,7 @@ class SearchResultViewModel {
         self.searchInfo = searchInfo
     }
 
-    /// 從網路中
+    /// 從網路中下載完
     /// - Parameters:
     ///   - searchInfo: 輸入搜尋條件
     ///   - completion: 下載完搜尋結果後
@@ -29,8 +29,9 @@ class SearchResultViewModel {
             try ApiManager.shared.getData(searchInfo: searchInfo, completion: { (result) in
                 switch result {
                 case .success(let data):
-                    guard let data = data else { return }
-                    self.dataArray = data
+                    if let data = data {
+                        self.dataArray = data
+                    }
 
                 case .failure(let error):
                     print(error.localizedDescription)
@@ -52,12 +53,14 @@ extension SearchResultViewModel: ResultViewModelProtocol {
     }
 
     var numberOfItemsInSection: Int {
+        print("詢問有多少資料\(dataArray.count)")
         return dataArray.count
     }
 
     func getPhotosData(completion: @escaping (() -> Void)) {
 
         self.getSearchResult(searchInfo: self.searchInfo) {
+            print("拿到資料了！")
             completion()
         }
     }
