@@ -31,7 +31,9 @@ extension SearchViewModel: SearchViewModelProtocol {
         if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: ResultViewKey.viewControllerId) as? ResultViewController {
             print("result didinit")
             vc.view.backgroundColor = .red
-            vc.searchInfo = self.dataSource?.searchInfo()
+            if let searchInfo = self.dataSource?.searchInfo() {
+                vc.resultMode = .Searching(searchInfo: searchInfo)
+            }
             print("result didnt push")
             //TODO: 這裡不會是datasource
             self.dataSource?.navigationController?.pushViewController(vc, animated: true)

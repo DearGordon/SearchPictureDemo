@@ -15,8 +15,13 @@ protocol ResultDataProtocol {
 
 protocol ResultViewModelProtocol: class {
     var resultArray: [ResultDataProtocol] { get }
-    var numberOfItemsInSection: Int { get }
-    func getData(text: String, perPage: Int, page: Int, completion: @escaping (() -> Void))
+    var numberOfItemsInSection: Int { get }    
+    func getPhotosData(by mode: ResultViewControllerMode, completion: @escaping (() -> Void))
+}
+
+enum ResultViewControllerMode {
+    case Searching(searchInfo: SearchInfo)
+    case Favorited
 }
 
 typealias SearchInfo = (text: String, page: Int, perPage: Int)
@@ -26,7 +31,7 @@ class ResultViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
 
     var viewModel: ResultViewModelProtocol?
-    var searchInfo: SearchInfo?
+    var resultMode: ResultViewControllerMode = .Favorited
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +48,7 @@ class ResultViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.getData()
+        self.loadPhotosData(by: self.resultMode)
     }
     
     //TODO: 下拉重新打API更新
@@ -63,10 +68,20 @@ class ResultViewController: UIViewController {
     }
 
     //TODO: getdata只跟data拿dataArray的資料
-    func getData() {
-        guard let searchInfo = self.searchInfo else { return }
-        self.viewModel?.getData(text: searchInfo.text, perPage: searchInfo.perPage, page: searchInfo.page, completion: {
-
+//    func getData() {
+//        guard let searchInfo = self.searchInfo else { return }
+//        self.viewModel?.getSearchResult(text: searchInfo.text, perPage: searchInfo.perPage, page: searchInfo.page, completion: {
+//
+//            DispatchQueue.main.async {
+//                self.collectionView.reloadData()
+//            }
+//        })
+//    }
+    
+    func loadPhotosData(by mode: ResultViewControllerMode) {
+        
+        self.viewModel?.getPhotosData(by: mode, completion: {
+            //finish load data, ready for reload collection view
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }

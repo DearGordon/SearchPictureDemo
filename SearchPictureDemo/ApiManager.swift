@@ -25,16 +25,16 @@ enum NetworkError: String, Error {
 }
 
 enum FlickrRequest {
-    case photoSearch(text: String, perPage: Int, page: Int)
+    case photoSearch(searchInfo: SearchInfo)
     
     func querys() -> [URLQueryItem] {
         var querys: [URLQueryItem] = []
         
         switch self {
-        case .photoSearch(text: let text, perPage: let perPage, page: let page):
-            querys.append(query(name: "text", value: text))
-            querys.append(query(name: "per_page", value: "\(perPage)"))
-            querys.append(query(name: "page", value: "\(page)"))
+        case .photoSearch(searchInfo: let search):
+            querys.append(query(name: "text", value: search.text))
+            querys.append(query(name: "per_page", value: "\(search.perPage)"))
+            querys.append(query(name: "page", value: "\(search.page)"))
         }
         return querys
     }
@@ -51,7 +51,7 @@ class ApiManager {
 
     private init() {}
     
-    func getData(text: String, perPage: Int, page: Int, completion: @escaping ((Result<[Photo]?, Error>) -> Void)) throws {
+    func getData(searchInfo: SearchInfo, completion: @escaping ((Result<[Photo]?, Error>) -> Void)) throws {
 
         guard let url = URL(string: "https://www.flickr.com/services/rest/") else { throw NetworkError.missingURL }
 
@@ -60,7 +60,7 @@ class ApiManager {
                                      URLQueryItem(name: "format", value: "rest"),
                                      URLQueryItem(name: "method", value: "flickr.photos.search")
         ]
-        let querys = FlickrRequest.photoSearch(text: text, perPage: perPage, page: page).querys()
+        let querys = FlickrRequest.photoSearch(searchInfo: searchInfo).querys()
 
         for query in querys {
             urlComponents?.queryItems?.append(query)

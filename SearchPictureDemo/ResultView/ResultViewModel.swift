@@ -21,25 +21,15 @@ class ResultViewModel {
     init(withDelegate delegate: ResultViewModelDelegate) {
         self.delegate = delegate
     }
-
-
-
-}
-
-extension ResultViewModel: ResultViewModelProtocol {
-
-    var resultArray: [ResultDataProtocol] {
-        return dataArray
+    
+    private func getFavoritResult(completion: (() -> Void)) {
+        
     }
 
-    var numberOfItemsInSection: Int {
-        return dataArray.count
-    }
-
-    func getData(text: String, perPage: Int, page: Int, completion: @escaping (() -> Void)) {
+    private func getSearchResult(searchInfo: SearchInfo, completion: @escaping (() -> Void)) {
 
         do {
-            try ApiManager.shared.getData(text: text, perPage: perPage, page: page, completion: { (result) in
+            try ApiManager.shared.getData(searchInfo: searchInfo, completion: { (result) in
                 switch result {
                 case .success(let data):
                     guard let data = data else { return }
@@ -53,8 +43,32 @@ extension ResultViewModel: ResultViewModelProtocol {
         } catch {
             print(error)
         }
+    }
 
+}
 
+extension ResultViewModel: ResultViewModelProtocol {
+
+    var resultArray: [ResultDataProtocol] {
+        return dataArray
+    }
+
+    var numberOfItemsInSection: Int {
+        return dataArray.count
+    }
+
+    func getPhotosData(by mode: ResultViewControllerMode, completion: @escaping (() -> Void)) {
+        
+        switch mode {
+        case .Searching(searchInfo: let searchInfo):
+            self.getSearchResult(searchInfo: searchInfo) {
+                completion()
+            }
+        case .Favorited:
+            self.getFavoritResult {
+                completion()
+            }
+        }
     }
 
 }
