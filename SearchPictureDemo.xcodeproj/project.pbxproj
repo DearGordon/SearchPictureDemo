@@ -89,7 +89,7 @@
 		543704452546D2530016BE98 /* ResultCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ResultCollectionViewCell.xib; sourceTree = "<group>"; };
 		543704472546D40F0016BE98 /* KeyWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyWord.swift; sourceTree = "<group>"; };
 		5437044B2546D4D30016BE98 /* SearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewModel.swift; sourceTree = "<group>"; };
-		5473DEA2255D7DF8009A7407 /* FavoritedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FavoritedViewModel.swift; path = SearchPictureDemo/SearchView/FavoritedViewModel.swift; sourceTree = SOURCE_ROOT; };
+		5473DEA2255D7DF8009A7407 /* FavoritedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FavoritedViewModel.swift; path = SearchPictureDemo/ResultView/ViewModel/FavoritedViewModel.swift; sourceTree = SOURCE_ROOT; };
 		5473DEA5255D868F009A7407 /* FakeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
 		54CF818C2546D6AC008A5494 /* ResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCollectionViewCell.swift; sourceTree = "<group>"; };
 		54CF818E2549C12F008A5494 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
@@ -225,10 +225,9 @@
 			isa = PBXGroup;
 			children = (
 				543704432546D0CD0016BE98 /* ResultViewController.swift */,
-				5473DEA2255D7DF8009A7407 /* FavoritedViewModel.swift */,
-				5437044B2546D4D30016BE98 /* SearchResultViewModel.swift */,
-				543704452546D2530016BE98 /* ResultCollectionViewCell.xib */,
 				54CF818C2546D6AC008A5494 /* ResultCollectionViewCell.swift */,
+				543704452546D2530016BE98 /* ResultCollectionViewCell.xib */,
+				54781031255D909A003D2914 /* ViewModel */,
 				4AC73F75254FF59700AE6D6B /* Model */,
 			);
 			path = ResultView;
@@ -241,6 +240,15 @@
 				543704412546C5970016BE98 /* SearchViewModel.swift */,
 			);
 			path = SearchView;
+			sourceTree = "<group>";
+		};
+		54781031255D909A003D2914 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				5473DEA2255D7DF8009A7407 /* FavoritedViewModel.swift */,
+				5437044B2546D4D30016BE98 /* SearchResultViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

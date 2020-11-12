@@ -12,7 +12,6 @@ protocol EndPointType {
     var baseURL: URL { get }
     var path: String { get }
     var httpMethod: HTTPMeth { get }
-    
 }
 
 enum HTTPMeth: String {
