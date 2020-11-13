@@ -8,6 +8,19 @@
 
 import Foundation
 
+protocol ResultCollectionViewCellViewModelDelegate: class {
+    func setFavoritedStatus(isLike: Bool)
+}
+
 class ResultCollectionViewCellViewModel {
     
+    weak var delegate: ResultCollectionViewCellViewModelDelegate?
+    
+    init(withDelegate delegate: ResultCollectionViewCellViewModelDelegate) {
+        self.delegate = delegate
+    }
+    
+    func favoritedAction() {
+        
+    }
 }

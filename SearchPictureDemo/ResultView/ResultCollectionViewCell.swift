@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol ResultCollectionViewCellViewModelProtocol {
-    func favoritedAction()
-}
-
 class ResultCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var picture: UIImageView!
@@ -19,6 +15,7 @@ class ResultCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var favoritedButtonView: UIImageView!
     
     var data: ResultDataProtocol?
+    lazy var viewModel = ResultCollectionViewCellViewModel(withDelegate: self)
     
     private func addGester() {
         let gr = UITapGestureRecognizer(target: self, action: #selector(favoritedAction))
@@ -26,7 +23,11 @@ class ResultCollectionViewCell: UICollectionViewCell {
     }
     
     @objc func favoritedAction() {
-        print("Favorited")
+        self.viewModel.favoritedAction()
+    }
+    
+    func setResultCell(withViewModel viewModel: ResultCollectionViewCellViewModel) {
+        //TODO: 換成ViewModel
     }
     
     func setResultCell(with data: ResultDataProtocol) {
@@ -37,6 +38,18 @@ class ResultCollectionViewCell: UICollectionViewCell {
         self.label.text = data.pictureTitle
         self.addGester()
     }
+}
+
+extension ResultCollectionViewCell: ResultCollectionViewCellViewModelDelegate {
+    
+    func setFavoritedStatus(isLike: Bool) {
+        if isLike {
+            self.favoritedButtonView.image = UIImage(systemName: "suit.heart.fill")
+        } else {
+            self.favoritedButtonView.image = UIImage(systemName: "suit.heart")
+        }
+    }
+    
 }
 
 let imageCache = NSCache<NSURL, UIImage>()
