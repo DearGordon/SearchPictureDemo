@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A7E610F255E1835005BBFCE /* ResultCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7E610E255E1835005BBFCE /* ResultCollectionViewCellViewModel.swift */; };
 		4AC73F66254FE6D900AE6D6B /* XMLStackParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC73F58254FE6D900AE6D6B /* XMLStackParser.swift */; };
 		4AC73F67254FE6D900AE6D6B /* XMLReferencingEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC73F5A254FE6D900AE6D6B /* XMLReferencingEncoder.swift */; };
 		4AC73F68254FE6D900AE6D6B /* EncodingErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC73F5B254FE6D900AE6D6B /* EncodingErrorExtension.swift */; };
@@ -57,6 +58,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A7E610E255E1835005BBFCE /* ResultCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		4AC73F58254FE6D900AE6D6B /* XMLStackParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLStackParser.swift; sourceTree = "<group>"; };
 		4AC73F5A254FE6D900AE6D6B /* XMLReferencingEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLReferencingEncoder.swift; sourceTree = "<group>"; };
 		4AC73F5B254FE6D900AE6D6B /* EncodingErrorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncodingErrorExtension.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 			children = (
 				543704432546D0CD0016BE98 /* ResultViewController.swift */,
 				54CF818C2546D6AC008A5494 /* ResultCollectionViewCell.swift */,
+				4A7E610E255E1835005BBFCE /* ResultCollectionViewCellViewModel.swift */,
 				543704452546D2530016BE98 /* ResultCollectionViewCell.xib */,
 				54781031255D909A003D2914 /* ViewModel */,
 				4AC73F75254FF59700AE6D6B /* Model */,
@@ -399,6 +402,7 @@
 				4AC73F71254FE6D900AE6D6B /* XMLKey.swift in Sources */,
 				4AC73F6E254FE6D900AE6D6B /* XMLDecodingStorage.swift in Sources */,
 				543704122546C3900016BE98 /* AppDelegate.swift in Sources */,
+				4A7E610F255E1835005BBFCE /* ResultCollectionViewCellViewModel.swift in Sources */,
 				4AC73F69254FE6D900AE6D6B /* XMLEncoder.swift in Sources */,
 				4AC73F6B254FE6D900AE6D6B /* DecodingErrorExtension.swift in Sources */,
 				5473DEA6255D868F009A7407 /* FakeData.swift in Sources */,

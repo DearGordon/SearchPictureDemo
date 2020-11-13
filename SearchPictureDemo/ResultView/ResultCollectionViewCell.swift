@@ -8,17 +8,34 @@
 
 import UIKit
 
+protocol ResultCollectionViewCellViewModelProtocol {
+    func favoritedAction()
+}
+
 class ResultCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var picture: UIImageView!
     @IBOutlet weak var label: UILabel!
-
-
+    @IBOutlet weak var favoritedButtonView: UIImageView!
+    
+    var data: ResultDataProtocol?
+    
+    private func addGester() {
+        let gr = UITapGestureRecognizer(target: self, action: #selector(favoritedAction))
+        self.favoritedButtonView.addGestureRecognizer(gr)
+    }
+    
+    @objc func favoritedAction() {
+        print("Favorited")
+    }
+    
     func setResultCell(with data: ResultDataProtocol) {
+        self.data = data
         if let url = data.pictureUrl {
             self.picture.downloaded(from: url)
         }
         self.label.text = data.pictureTitle
+        self.addGester()
     }
 }
 
