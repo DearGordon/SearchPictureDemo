@@ -8,49 +8,55 @@
 
 import UIKit
 
+protocol ResultCellViewModel: AnyObject {
+    var pictureUrl: String { get }
+    var title: String { get }
+    var isFavorited: Bool { get }
+
+    func favoritedAction(completion: ((_ isLiked: Bool) -> Void))
+}
+
 class ResultCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var picture: UIImageView!
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var favoritedButtonView: UIImageView!
-    
-    var data: ResultDataProtocol?
-    lazy var viewModel = ResultCollectionViewCellViewModel(withDelegate: self)
-    
-    private func addGester() {
-        let gr = UITapGestureRecognizer(target: self, action: #selector(favoritedAction))
-        self.favoritedButtonView.addGestureRecognizer(gr)
-    }
-    
-    @objc func favoritedAction() {
-        self.viewModel.favoritedAction()
-    }
-    
-    func setResultCell(withViewModel viewModel: ResultCollectionViewCellViewModel) {
-        //TODO: 換成ViewModel
-    }
-    
-    func setResultCell(with data: ResultDataProtocol) {
-        self.data = data
-        if let url = data.pictureUrl {
-            self.picture.downloaded(from: url)
+
+    weak var viewModel: ResultCellViewModel? {
+        didSet {
+            guard let viewModel = self.viewModel else { return }
+            self.label.text = viewModel.title
+            self.picture.downloaded(from: viewModel.pictureUrl)
+            self.setFavoritedStatus(isLiked: viewModel.isFavorited)
         }
-        self.label.text = data.pictureTitle
+    }
+
+    func setResultCell(with viewModel: ResultCellViewModel) {
+        self.viewModel = viewModel
         self.addGester()
     }
-}
 
-extension ResultCollectionViewCell: ResultCollectionViewCellViewModelDelegate {
-    
-    func setFavoritedStatus(isLike: Bool) {
-        if isLike {
+    private func addGester() {
+        let gr = UITapGestureRecognizer(target: self, action: #selector(favoritedPressed))
+        self.favoritedButtonView.addGestureRecognizer(gr)
+    }
+
+    @objc func favoritedPressed() {
+        self.viewModel?.favoritedAction(completion: { (isLiked) in
+            self.setFavoritedStatus(isLiked: isLiked)
+        })
+    }
+
+    private func setFavoritedStatus(isLiked: Bool) {
+        if isLiked {
             self.favoritedButtonView.image = UIImage(systemName: "suit.heart.fill")
         } else {
             self.favoritedButtonView.image = UIImage(systemName: "suit.heart")
         }
     }
-    
+
 }
+
 
 let imageCache = NSCache<NSURL, UIImage>()
 fileprivate extension UIImageView {

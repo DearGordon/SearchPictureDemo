@@ -36,6 +36,8 @@
 		5437044C2546D4D30016BE98 /* SearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5437044B2546D4D30016BE98 /* SearchResultViewModel.swift */; };
 		5473DEA3255D7DF8009A7407 /* FavoritedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5473DEA2255D7DF8009A7407 /* FavoritedViewModel.swift */; };
 		5473DEA6255D868F009A7407 /* FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5473DEA5255D868F009A7407 /* FakeData.swift */; };
+		547FEF1425613FAB004E5272 /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547FEF1325613FAB004E5272 /* CoreDataHelper.swift */; };
+		547FEF1725613FDA004E5272 /* ResultData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 547FEF1525613FDA004E5272 /* ResultData.xcdatamodeld */; };
 		54CF818D2546D6AC008A5494 /* ResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CF818C2546D6AC008A5494 /* ResultCollectionViewCell.swift */; };
 		54CF818F2549C12F008A5494 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CF818E2549C12F008A5494 /* ApiManager.swift */; };
 /* End PBXBuildFile section */
@@ -93,6 +95,8 @@
 		5437044B2546D4D30016BE98 /* SearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewModel.swift; sourceTree = "<group>"; };
 		5473DEA2255D7DF8009A7407 /* FavoritedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FavoritedViewModel.swift; path = SearchPictureDemo/ResultView/ViewModel/FavoritedViewModel.swift; sourceTree = SOURCE_ROOT; };
 		5473DEA5255D868F009A7407 /* FakeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
+		547FEF1325613FAB004E5272 /* CoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataHelper.swift; sourceTree = "<group>"; };
+		547FEF1625613FDA004E5272 /* FavoritedData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FavoritedData.xcdatamodel; sourceTree = "<group>"; };
 		54CF818C2546D6AC008A5494 /* ResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCollectionViewCell.swift; sourceTree = "<group>"; };
 		54CF818E2549C12F008A5494 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -200,6 +204,8 @@
 				5437041A2546C3900016BE98 /* Assets.xcassets */,
 				5437041C2546C3900016BE98 /* LaunchScreen.storyboard */,
 				5437041F2546C3900016BE98 /* Info.plist */,
+				547FEF1325613FAB004E5272 /* CoreDataHelper.swift */,
+				547FEF1525613FDA004E5272 /* ResultData.xcdatamodeld */,
 				4AC73F57254FE6D900AE6D6B /* XMLParsing */,
 			);
 			path = SearchPictureDemo;
@@ -394,6 +400,8 @@
 				5437044C2546D4D30016BE98 /* SearchResultViewModel.swift in Sources */,
 				543704482546D40F0016BE98 /* KeyWord.swift in Sources */,
 				4AC73F68254FE6D900AE6D6B /* EncodingErrorExtension.swift in Sources */,
+				547FEF1725613FDA004E5272 /* ResultData.xcdatamodeld in Sources */,
+				547FEF1425613FAB004E5272 /* CoreDataHelper.swift in Sources */,
 				4AC73F77254FF5B200AE6D6B /* ResultModel.swift in Sources */,
 				4AC73F6C254FE6D900AE6D6B /* XMLUnkeyedDecodingContainer.swift in Sources */,
 				543704162546C3900016BE98 /* SearchViewController.swift in Sources */,
@@ -739,6 +747,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		547FEF1525613FDA004E5272 /* ResultData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				547FEF1625613FDA004E5272 /* FavoritedData.xcdatamodel */,
+			);
+			currentVersion = 547FEF1625613FDA004E5272 /* FavoritedData.xcdatamodel */;
+			path = ResultData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 543704062546C3900016BE98 /* Project object */;
 }

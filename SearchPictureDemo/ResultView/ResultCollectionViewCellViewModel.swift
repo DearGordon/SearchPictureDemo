@@ -15,12 +15,51 @@ protocol ResultCollectionViewCellViewModelDelegate: class {
 class ResultCollectionViewCellViewModel {
     
     weak var delegate: ResultCollectionViewCellViewModelDelegate?
-    
-    init(withDelegate delegate: ResultCollectionViewCellViewModelDelegate) {
-        self.delegate = delegate
+
+    private var imageUrl: String
+    private var dataTitle: String
+
+    init(resultData: ResultDataProtocol) {
+        self.imageUrl = resultData.pictureUrl ?? ""
+        self.dataTitle = resultData.pictureTitle
+    }
+
+    private func checkFavorited() -> Bool {
+        //TODO: check is favorited or not
+        return true
+    }
+
+    private func addFavorited() {
+        
+    }
+
+    private func removeFavorited() {
+
     }
     
-    func favoritedAction() {
-        
+}
+
+extension ResultCollectionViewCellViewModel: ResultCellViewModel {
+
+    var pictureUrl: String {
+        return self.imageUrl
+    }
+
+    var title: String {
+        return self.dataTitle
+    }
+
+    var isFavorited: Bool {
+        return self.checkFavorited()
+    }
+
+    func favoritedAction(completion: ((Bool) -> Void)) {
+        if isFavorited {
+            self.removeFavorited()
+            completion(false)
+        } else {
+            self.addFavorited()
+            completion(true)
+        }
     }
 }

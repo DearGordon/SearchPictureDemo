@@ -121,7 +121,9 @@ extension ResultViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let viewModel = self.viewModel,
             let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: ResultViewKey.cellId, for: indexPath) as? ResultCollectionViewCell else { return ResultCollectionViewCell() }
 
-        cell.setResultCell(with: viewModel.resultArray[indexPath.row])
+        let resultData = viewModel.resultArray[indexPath.row]
+        let cellViewModel = ResultCollectionViewCellViewModel(resultData: resultData)
+        cell.setResultCell(with: cellViewModel)
 
         return cell
     }
