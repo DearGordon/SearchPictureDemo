@@ -58,6 +58,7 @@ class ResultViewController: UIViewController {
         case .Searching(searchInfo: let searchInfo):
             self.viewModel = SearchResultViewModel(searchInfo: searchInfo)
             self.setRefreshControl()
+
         case .Favorited:
             self.viewModel = FavoritedViewModel()
         }

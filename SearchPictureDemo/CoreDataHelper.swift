@@ -9,9 +9,7 @@ import CoreData
 class CoreDataHelper: NSObject {
     static let shared = CoreDataHelper()
 
-    override internal init() {
-        
-    }
+    override internal init() {}
 
     func managedObjectContext() -> NSManagedObjectContext {
         return persistentContainer.viewContext
@@ -55,12 +53,18 @@ class CoreDataHelper: NSObject {
         }
     }
 
-    func loadResultData() {
+    func loadResultData(completion: @escaping ((Result<[ResultData], Error>) -> Void)) {
         let moc = CoreDataHelper.shared.managedObjectContext()
         let request = NSFetchRequest<ResultData>(entityName: "ResultData")
+
+        moc.perform {
+            do {
+                let dataArray = try moc.fetch(request)
+                completion(.success(dataArray))
+            } catch {
+                completion(.failure(error))
+            }
+        }
     }
 
-    func saveResultData() {
-
-    }
 }

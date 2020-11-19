@@ -7,23 +7,6 @@
 //
 
 import Foundation
-import CoreData
-
-class ResultData: NSManagedObject {
-    @NSManaged var title: String?
-    @NSManaged var url: String?
-}
-
-extension ResultData: ResultDataProtocol {
-    var pictureTitle: String {
-        return title ?? ""
-    }
-
-    var pictureUrl: String? {
-        return url ?? ""
-    }
-}
-
 
 struct Rsp: Codable {
     var photos: Photos?
