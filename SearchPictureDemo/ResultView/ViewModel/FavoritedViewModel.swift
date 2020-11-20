@@ -15,17 +15,10 @@ class FavoritedViewModel: NSObject {
 
     /// 從我的最愛中下載下來
     /// - Parameter completion: 下載完我的最愛後
-    private func getFavoritResult(completion: @escaping (() -> Void)) {
-        CoreDataHelper.shared.loadResultData { (result) in
-            switch result {
-            case .success(let resultDatas):
-                self.dataArray = resultDatas
-            case .failure(_):
-                print("我沒有拿到值")
-            }
-
-            completion()
-        }
+    private func getFavoritResult(completion: (() -> Void)) {
+//        self.setFakeData()
+        self.dataArray = FavoritedListManager.shared.favoritedList
+        completion()
     }
 
     func setFakeData() {

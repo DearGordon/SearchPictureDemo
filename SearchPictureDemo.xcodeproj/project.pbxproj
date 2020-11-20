@@ -237,7 +237,6 @@
 			children = (
 				543704432546D0CD0016BE98 /* ResultViewController.swift */,
 				54CF818C2546D6AC008A5494 /* ResultCollectionViewCell.swift */,
-				4A7E610E255E1835005BBFCE /* ResultCollectionViewCellViewModel.swift */,
 				543704452546D2530016BE98 /* ResultCollectionViewCell.xib */,
 				54781031255D909A003D2914 /* ViewModel */,
 				4AC73F75254FF59700AE6D6B /* Model */,
@@ -257,6 +256,7 @@
 		54781031255D909A003D2914 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				4A7E610E255E1835005BBFCE /* ResultCollectionViewCellViewModel.swift */,
 				5473DEA2255D7DF8009A7407 /* FavoritedViewModel.swift */,
 				5437044B2546D4D30016BE98 /* SearchResultViewModel.swift */,
 			);

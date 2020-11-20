@@ -16,22 +16,22 @@ class FavoritedListManager {
 
     var favoritedList: [ResultDataProtocol] = []
 
-    func getFavoritResult(completion: @escaping (() -> Void)) {
+    func getFavoritResult(completion: (() -> Void)?) {
 
         CoreDataHelper.shared.loadResultData { (result) in
             switch result {
             case .success(let resultDatas):
                 self.favoritedList = resultDatas
+                print("favoirted.count = \(self.favoritedList.count)")
             case .failure(_):
                 print("我沒有拿到值")
             }
-
-            completion()
+            completion?()
         }
     }
 
-    private func hasSameData(with data: ResultDataProtocol) -> Int? {
-        //無法使用Array.contein,因為無法服從Equatable，not object
+    func hasSameData(with data: ResultDataProtocol) -> Int? {
+        //TODO: 無法使用Array.contain,因為無法服從Equatable，not object type
         for i in 0..<favoritedList.count {
             if data.pictureUrl == favoritedList[i].pictureUrl {
                 return i

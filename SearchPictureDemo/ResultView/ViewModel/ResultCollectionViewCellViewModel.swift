@@ -8,25 +8,30 @@
 
 import Foundation
 
-protocol ResultCollectionViewCellViewModelDelegate: class {
-    func setFavoritedStatus(isLike: Bool)
-}
 
 class ResultCollectionViewCellViewModel {
-    
-    weak var delegate: ResultCollectionViewCellViewModelDelegate?
 
     private var imageUrl: String
     private var dataTitle: String
+    
+    private var resultData: ResultDataProtocol
 
     init(resultData: ResultDataProtocol) {
+        self.resultData = resultData
         self.imageUrl = resultData.pictureUrl ?? ""
         self.dataTitle = resultData.pictureTitle
     }
 
     private func checkFavorited() -> Bool {
-        //TODO: check is favorited or not
+        
+        guard FavoritedListManager.shared.hasSameData(with: self.resultData) != nil else {
+            return false
+        }
         return true
+    }
+    
+    private func favoritedAction() {
+        FavoritedListManager.shared.favoritedAction
     }
 
     private func addFavorited() {
@@ -53,13 +58,8 @@ extension ResultCollectionViewCellViewModel: ResultCellViewModel {
         return self.checkFavorited()
     }
 
-    func favoritedAction(completion: ((Bool) -> Void)) {
-        if isFavorited {
-            self.removeFavorited()
-            completion(false)
-        } else {
-            self.addFavorited()
-            completion(true)
-        }
+    func favoritedButtonPressed(completion: (() -> Void)) {
+        self.favoritedAction()
+        completion()
     }
 }

@@ -17,6 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
         print("我家在這\(NSHomeDirectory())")
+        FavoritedListManager.shared.getFavoritResult(completion: {
+            print("get favorited finished")
+        })
         return true
     }
 

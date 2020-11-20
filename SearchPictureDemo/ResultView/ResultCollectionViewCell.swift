@@ -13,7 +13,7 @@ protocol ResultCellViewModel: AnyObject {
     var title: String { get }
     var isFavorited: Bool { get }
 
-    func favoritedAction(completion: ((_ isLiked: Bool) -> Void))
+    func favoritedButtonPressed(completion: (() -> Void))
 }
 
 class ResultCollectionViewCell: UICollectionViewCell {
@@ -37,13 +37,14 @@ class ResultCollectionViewCell: UICollectionViewCell {
     }
 
     private func addGester() {
-        let gr = UITapGestureRecognizer(target: self, action: #selector(favoritedPressed))
+        let gr = UITapGestureRecognizer(target: self, action: #selector(favoritedPressedAction))
         self.favoritedButtonView.addGestureRecognizer(gr)
     }
 
-    @objc func favoritedPressed() {
-        self.viewModel?.favoritedAction(completion: { (isLiked) in
-            self.setFavoritedStatus(isLiked: isLiked)
+    @objc func favoritedPressedAction() {
+        self.viewModel?.favoritedButtonPressed(completion: {
+            guard let isFavorited = self.viewModel?.isFavorited else { return }
+            self.setFavoritedStatus(isLiked: isFavorited)
         })
     }
 
@@ -58,7 +59,7 @@ class ResultCollectionViewCell: UICollectionViewCell {
 }
 
 
-let imageCache = NSCache<NSURL, UIImage>()
+fileprivate let imageCache = NSCache<NSURL, UIImage>()
 fileprivate extension UIImageView {
     func downloaded(from url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
         contentMode = mode
