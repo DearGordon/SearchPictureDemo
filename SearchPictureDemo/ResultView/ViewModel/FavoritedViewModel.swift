@@ -41,36 +41,6 @@ class FavoritedViewModel: NSObject {
         self.dataArray = fakeDataArray
         CoreDataHelper.shared.saveContext()
     }
-    
-    func getDataFromUserDefault(completion: (() -> Void)) {
-        let datas = UserDefaults.standard.read(key: .favorited) as! Data
-        do {
-            let object = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(datas)
-
-            guard let data = object as? [ResultData] else {
-                print("FakeData casting fail")
-                return
-            }
-
-            self.dataArray = data
-            completion()
-        } catch {
-            print("unarchive fail \(error.localizedDescription)")
-        }
-    }
-
-    func addToUserdefault(with fakeDataArray: [ResultData]) {
-        do {
-            let data: NSData = NSData(bytes: fakeDataArray, length: fakeDataArray.count)
-            let encodeObject = try NSKeyedArchiver.archivedData(withRootObject: data, requiringSecureCoding: false)
-
-            UserDefaults.standard.save(key: .favorited, value: encodeObject)
-            print("完成")
-
-        } catch {
-            print("轉Data失敗 \(error.localizedDescription)")
-        }
-    }
 
 }
 
