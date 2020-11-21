@@ -15,10 +15,11 @@ class FavoritedViewModel: NSObject {
 
     /// 從我的最愛中下載下來
     /// - Parameter completion: 下載完我的最愛後
-    private func getFavoritResult(completion: (() -> Void)) {
-//        self.setFakeData()
-        self.dataArray = FavoritedListManager.shared.favoritedList
-        completion()
+    private func getFavoritResult(completion: @escaping (() -> Void)) {
+        FavoritedListManager.shared.getFavoritResult(completion: {
+            self.dataArray = FavoritedListManager.shared.favoritedList
+            completion()
+        })
     }
 
     func setFakeData() {
@@ -32,13 +33,14 @@ class FavoritedViewModel: NSObject {
             fakeDataArray.append(result)
         }
         self.dataArray = fakeDataArray
-        CoreDataHelper.shared.saveContext()
+        CoreDataHelper.shared.saveContext(completion: nil)
     }
 
 }
 
 extension FavoritedViewModel: ResultViewModelProtocol {
     var resultArray: [ResultDataProtocol] {
+        //TODO: 不能這樣做，因為要等待resultArray取得資料會有時間差
         return self.dataArray
     }
 

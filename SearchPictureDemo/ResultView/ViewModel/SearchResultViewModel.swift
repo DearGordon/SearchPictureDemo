@@ -51,14 +51,12 @@ extension SearchResultViewModel: ResultViewModelProtocol {
     }
 
     var numberOfItemsInSection: Int {
-        print("詢問有多少資料\(dataArray.count)")
         return dataArray.count
     }
 
     func getPhotosData(completion: @escaping (() -> Void)) {
 
         self.getSearchResult(searchInfo: self.searchInfo) {
-            print("拿到資料了！")
             completion()
         }
     }

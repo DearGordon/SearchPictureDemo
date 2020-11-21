@@ -22,7 +22,7 @@ class ResultCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var favoritedButtonView: UIImageView!
 
-    weak var viewModel: ResultCellViewModel? {
+    var viewModel: ResultCellViewModel? {
         didSet {
             guard let viewModel = self.viewModel else { return }
             self.label.text = viewModel.title
@@ -49,6 +49,7 @@ class ResultCollectionViewCell: UICollectionViewCell {
     }
 
     private func setFavoritedStatus(isLiked: Bool) {
+        
         if isLiked {
             self.favoritedButtonView.image = UIImage(systemName: "suit.heart.fill")
         } else {

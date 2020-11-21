@@ -80,10 +80,6 @@ class ApiManager {
             do {
                 let rsp = try XMLDecoder().decode(Rsp.self, from: data)
 
-                if let count = rsp.photos?.photo?.count {
-                    print("下載了\(count)筆資料")
-                }
-
                 completion(.success(rsp.photos?.photo))
             } catch {
                 print(error.localizedDescription)

@@ -38,17 +38,25 @@ class CoreDataHelper: NSObject {
         })
         return container
     }()
+
+    func delete(_ data: ResultData) {
+        let moc = self.managedObjectContext()
+        moc.delete(data)
+        print("remove data from CoreData")
+        self.saveContext(completion: nil)
+    }
     
-    func saveContext () {
+    func saveContext(completion: ((Result<Bool, Error>) -> Void)?) {
         let context = persistentContainer.viewContext
+        //FIXME:  context.hasChanges 在我的最愛頁面沒有觸發hasChange
         if context.hasChanges {
             do {
                 try context.save()
+                print("Save with CoreData Successed")
+                completion?(.success(true))
             } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                print(error.localizedDescription)
+                completion?(.failure(error))
             }
         }
     }

@@ -23,15 +23,15 @@ class ResultCollectionViewCellViewModel {
     }
 
     private func checkFavorited() -> Bool {
-        
-        guard FavoritedListManager.shared.hasSameData(with: self.resultData) != nil else {
+
+        guard FavoritedListManager.shared.hasSameDataIndex(with: self.resultData) != nil else {
             return false
         }
         return true
     }
-    
+
     private func favoritedAction() {
-        FavoritedListManager.shared.favoritedAction
+        FavoritedListManager.shared.favoritedAction(with: self.resultData)
     }
 
     private func addFavorited() {

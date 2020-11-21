@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         print("我家在這\(NSHomeDirectory())")
         FavoritedListManager.shared.getFavoritResult(completion: {
-            print("get favorited finished")
+            print("did get favoritedList from CoreData")
         })
         return true
     }

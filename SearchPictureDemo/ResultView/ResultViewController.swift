@@ -99,7 +99,7 @@ class ResultViewController: UIViewController {
     private func loadPhotosData() {
         self.viewModel?.getPhotosData(completion: {
             DispatchQueue.main.async {
-                print("拿到資料開始重新整理")
+
                 self.collectionView.reloadData()
                 self.collectionView.refreshControl?.endRefreshing()
             }
@@ -113,7 +113,6 @@ extension ResultViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
         let number = self.viewModel?.numberOfItemsInSection ?? 0
-        print("我要顯示\(number)筆資料")
         return number
     }
 

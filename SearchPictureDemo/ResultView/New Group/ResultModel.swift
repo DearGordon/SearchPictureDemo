@@ -17,7 +17,7 @@ struct Photos: Codable {
     var photo: [Photo]?
 }
 
-struct Photo: Codable {
+class Photo: NSObject, Codable {
     var id: String?
     var owner: String?
     var secret: String?
@@ -38,6 +38,14 @@ struct Photo: Codable {
 }
 
 extension Photo: ResultDataProtocol {
+
+    var isFavorited: Bool {
+        if let _ = FavoritedListManager.shared.hasSameDataIndex(with: self) {
+            return true
+        }
+        return false
+    }
+
     var pictureTitle: String {
         return title ?? "empty text"
     }

@@ -14,7 +14,12 @@ class FavoritedListManager {
 
     private init() {}
 
-    var favoritedList: [ResultDataProtocol] = []
+    var favoritedList: [ResultData] = [] {
+        didSet {
+            print("FavoritedList did change to \(favoritedList.count)")
+            CoreDataHelper.shared.saveContext(completion: nil)
+        }
+    }
 
     func getFavoritResult(completion: (() -> Void)?) {
 
@@ -24,14 +29,14 @@ class FavoritedListManager {
                 self.favoritedList = resultDatas
                 print("favoirted.count = \(self.favoritedList.count)")
             case .failure(_):
-                print("我沒有拿到值")
+                print("Didn't get data from CoreData")
             }
             completion?()
         }
     }
 
-    func hasSameData(with data: ResultDataProtocol) -> Int? {
-        //TODO: 無法使用Array.contain,因為無法服從Equatable，not object type
+    func hasSameDataIndex(with data: ResultDataProtocol) -> Int? {
+
         for i in 0..<favoritedList.count {
             if data.pictureUrl == favoritedList[i].pictureUrl {
                 return i
@@ -41,11 +46,56 @@ class FavoritedListManager {
     }
 
     func favoritedAction(with data: ResultDataProtocol) {
-        guard let dataIndex = self.hasSameData(with: data) else {
-            self.favoritedList.append(data)
+        let resultData = self.castingToResultData(with: data)
+
+        guard let dataIndex = self.hasSameDataIndex(with: resultData) else {
+            self.favoritedList.append(resultData)
+            print("Did add data to FavoritedList")
             return
         }
-        self.favoritedList.remove(at: dataIndex)
+        let removed = self.favoritedList.remove(at: dataIndex)
+        print("Removed data from favorited")
+        CoreDataHelper.shared.delete(removed)
     }
+
+    private func castingToResultData(with data: ResultDataProtocol) -> ResultData {
+        //if can't casting to ResultData, means data is from SearchResult
+        if let data = data as? ResultData {
+             print("pressed from Favorited Page ")
+            return data
+        } else {
+            print("Pressed from Search Page")
+            let moc = CoreDataHelper.shared.managedObjectContext()
+            let newResultData = ResultData(context: moc)
+            newResultData.title = data.pictureTitle
+            newResultData.url = data.pictureUrl
+            return newResultData
+        }
+    }
+
+//    func favoritedAction(with data: ResultDataProtocol) {
+//
+//        var resultData: ResultData?
+//        if let data = data as? ResultData {
+//            resultData = data
+//        } else {
+//            let moc = CoreDataHelper.shared.managedObjectContext()
+//            let newResultData = ResultData(context: moc)
+//            newResultData.title = data.pictureTitle
+//            newResultData.url = data.pictureUrl
+//            resultData = newResultData
+//        }
+//
+//        //if can't casting to ResultData, means data is from SearchResult
+//        guard let dataIndex = self.hasSameDataIndex(with: data) else {
+//            //新增
+//            if let data = resultData {
+//                self.favoritedList.append(data)
+//            }
+//            return
+//        }
+//        let removeData = self.favoritedList.remove(at: dataIndex)
+//        CoreDataHelper.shared.delete(removeData)
+//    }
 
 }
