@@ -16,7 +16,7 @@ class FavoritedViewModel: NSObject {
     /// 從我的最愛中下載下來
     /// - Parameter completion: 下載完我的最愛後
     private func getFavoritResult(completion: @escaping (() -> Void)) {
-        FavoritedListManager.shared.getFavoritResult(completion: {
+        FavoritedListManager.shared.getFavoritListFromCoreData(completion: {
             self.dataArray = FavoritedListManager.shared.favoritedList
             completion()
         })
@@ -39,6 +39,7 @@ class FavoritedViewModel: NSObject {
 }
 
 extension FavoritedViewModel: ResultViewModelProtocol {
+
     var resultArray: [ResultDataProtocol] {
         //TODO: 不能這樣做，因為要等待resultArray取得資料會有時間差
         return self.dataArray
@@ -48,8 +49,8 @@ extension FavoritedViewModel: ResultViewModelProtocol {
         return self.dataArray.count
     }
 
-    func getPhotosData(completion: @escaping (() -> Void)) {
-        
+    func getPhotosData(isTurnPage: Bool, completion: @escaping (() -> Void)) {
+        if isTurnPage { return }
         self.getFavoritResult {
             completion()
         }

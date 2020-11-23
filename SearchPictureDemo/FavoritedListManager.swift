@@ -17,11 +17,10 @@ class FavoritedListManager {
     var favoritedList: [ResultData] = [] {
         didSet {
             print("FavoritedList did change to \(favoritedList.count)")
-            CoreDataHelper.shared.saveContext(completion: nil)
         }
     }
 
-    func getFavoritResult(completion: (() -> Void)?) {
+    func getFavoritListFromCoreData(completion: (() -> Void)?) {
 
         CoreDataHelper.shared.loadResultData { (result) in
             switch result {
@@ -54,7 +53,7 @@ class FavoritedListManager {
             return
         }
         let removed = self.favoritedList.remove(at: dataIndex)
-        print("Removed data from favorited")
+        print("Removed data from favoritedList")
         CoreDataHelper.shared.delete(removed)
     }
 

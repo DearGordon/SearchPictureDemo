@@ -15,8 +15,8 @@ protocol ResultDataProtocol {
 
 protocol ResultViewModelProtocol: class {
     var resultArray: [ResultDataProtocol] { get }
-    var numberOfItemsInSection: Int { get }    
-    func getPhotosData(completion: @escaping (() -> Void))
+    var numberOfItemsInSection: Int { get }
+    func getPhotosData(isTurnPage: Bool, completion: @escaping (() -> Void))
 }
 
 enum ResultMode {
@@ -58,10 +58,17 @@ class ResultViewController: UIViewController {
         case .Searching(searchInfo: let searchInfo):
             self.viewModel = SearchResultViewModel(searchInfo: searchInfo)
             self.setRefreshControl()
+            self.setLoadMoreData()
 
         case .Favorited:
             self.viewModel = FavoritedViewModel()
         }
+    }
+
+    private func setLoadMoreData() {
+
+
+
     }
 
     private func setCollectionView() {
@@ -88,16 +95,16 @@ class ResultViewController: UIViewController {
     
     private func setRefreshControl() {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(doRefreshthing), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(freshthAction), for: .valueChanged)
         self.collectionView.refreshControl = refreshControl
     }
     
-    @objc func doRefreshthing() {
+    @objc func freshthAction() {
         self.loadPhotosData()
     }
 
     private func loadPhotosData() {
-        self.viewModel?.getPhotosData(completion: {
+        self.viewModel?.getPhotosData(isTurnPage: false, completion: {
             DispatchQueue.main.async {
 
                 self.collectionView.reloadData()
@@ -105,6 +112,15 @@ class ResultViewController: UIViewController {
             }
         })
     }
+
+    private func loadingMoreData() {
+        self.viewModel?.getPhotosData(isTurnPage: true, completion: {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        })
+    }
+    
     
 }
 
@@ -128,4 +144,24 @@ extension ResultViewController: UICollectionViewDelegate, UICollectionViewDataSo
         return cell
     }
 
+}
+
+
+extension ResultViewController: UIScrollViewDelegate {
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        guard scrollView.contentSize.height > self.collectionView.frame.height else { return }
+
+        if scrollView.contentSize.height - (scrollView.frame.size.height + scrollView.contentOffset.y) <= -10 {
+
+            print("使用者已滑到最底")
+            switch self.resultMode {
+            case .Searching(_):
+                self.loadingMoreData()
+            case .Favorited:
+                return
+            }
+
+        }
+    }
 }

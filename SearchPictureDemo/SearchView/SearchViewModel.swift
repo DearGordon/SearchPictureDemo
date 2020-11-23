@@ -20,7 +20,7 @@ class SearchViewModel: NSObject {
         self.dataSource = delegate
     }
 
-    private func initResultViewControkller() -> ResultViewController? {
+    private func initResultViewController() -> ResultViewController? {
 
         guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: ResultViewKey.viewControllerId) as? ResultViewController else { return nil }
         vc.view.backgroundColor = .red
@@ -39,7 +39,7 @@ extension SearchViewModel: SearchViewModelProtocol {
     
     func pushToResultPage(from viewController: SearchViewController) {
 
-        guard let vc = self.initResultViewControkller() else { return }
+        guard let vc = self.initResultViewController() else { return }
         //TODO: 這裡不會是datasource
         viewController.navigationController?.pushViewController(vc, animated: true)
 

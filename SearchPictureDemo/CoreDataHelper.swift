@@ -18,14 +18,16 @@ class CoreDataHelper: NSObject {
     // MARK: - Core Data stack
     lazy var persistentContainer: NSPersistentContainer = {
 
-        let container = NSPersistentContainer(name: "ResultData")
+        let containId = "ResultData"
+
+        let container = NSPersistentContainer(name: containId)
         let description = NSPersistentStoreDescription()
-        //設定sqlite存放位置
+
         var sqlUrl = URL(fileURLWithPath: NSHomeDirectory())
         sqlUrl.appendPathComponent("Documents")
-        sqlUrl.appendPathComponent("ResultData.sqlite")
+        sqlUrl.appendPathComponent("\(containId).sqlite")
         description.url = sqlUrl
-        //如果要關閉journal mode，只產生一個sqlite檔案，可以打開以下這個選項
+
         description.setOption(["journal_mode":"DELETE"] as NSDictionary, forKey: NSSQLitePragmasOption)
         
         container.persistentStoreDescriptions = [description]
@@ -42,13 +44,14 @@ class CoreDataHelper: NSObject {
     func delete(_ data: ResultData) {
         let moc = self.managedObjectContext()
         moc.delete(data)
-        print("remove data from CoreData")
+        print("Remove data from CoreData and will save in next Line")
         self.saveContext(completion: nil)
     }
     
     func saveContext(completion: ((Result<Bool, Error>) -> Void)?) {
         let context = persistentContainer.viewContext
         //FIXME:  context.hasChanges 在我的最愛頁面沒有觸發hasChange
+
         if context.hasChanges {
             do {
                 try context.save()
@@ -58,6 +61,8 @@ class CoreDataHelper: NSObject {
                 print(error.localizedDescription)
                 completion?(.failure(error))
             }
+        } else {
+            print("Didnt save in Coredata cause context hasn't change")
         }
     }
 

@@ -12,9 +12,33 @@ class SearchResultViewModel {
 
     private var dataArray: [ResultDataProtocol] = []
     private var searchInfo: SearchInfo
+    private var currentPage: Int
 
     init(searchInfo: SearchInfo) {
         self.searchInfo = searchInfo
+        self.currentPage = searchInfo.page
+    }
+
+    private func loadMoreData(completion: @escaping (() -> Void)) {
+
+        let info: SearchInfo = (text: self.searchInfo.text, page: self.currentPage, perPage: self.searchInfo.perPage)
+        do {
+            try ApiManager.shared.getData(searchInfo: info, completion: { (result) in
+                switch result {
+
+                case .success(let data):
+                    guard let data = data else { return }
+                    self.dataArray.append(contentsOf: data)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+                completion()
+            })
+        } catch {
+            print(error.localizedDescription)
+        }
+
+
     }
 
     /// 從網路中下載完
@@ -38,7 +62,7 @@ class SearchResultViewModel {
             })
 
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
     }
 
@@ -54,11 +78,19 @@ extension SearchResultViewModel: ResultViewModelProtocol {
         return dataArray.count
     }
 
-    func getPhotosData(completion: @escaping (() -> Void)) {
+    func getPhotosData(isTurnPage: Bool, completion: @escaping (() -> Void)) {
 
-        self.getSearchResult(searchInfo: self.searchInfo) {
-            completion()
+        if isTurnPage {
+            self.currentPage += 1
+            self.loadMoreData {
+                completion()
+            }
+        } else {
+            self.getSearchResult(searchInfo: self.searchInfo) {
+                completion()
+            }
         }
+
     }
 
 }
