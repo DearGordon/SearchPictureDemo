@@ -10,7 +10,7 @@ import UIKit
 
 class SearchResultViewModel {
 
-    private var dataArray: [ResultDataProtocol] = []
+    private var searchDataArray: [ResultDataProtocol] = []
     private var searchInfo: SearchInfo
     private var currentPage: Int
 
@@ -20,15 +20,15 @@ class SearchResultViewModel {
     }
 
     private func loadMoreData(completion: @escaping (() -> Void)) {
-
-        let info: SearchInfo = (text: self.searchInfo.text, page: self.currentPage, perPage: self.searchInfo.perPage)
+        self.currentPage += 1
+        let nextPageInfo: SearchInfo = (text: self.searchInfo.text, page: self.currentPage, perPage: self.searchInfo.perPage)
         do {
-            try ApiManager.shared.getData(searchInfo: info, completion: { (result) in
+            try ApiManager.shared.getData(searchInfo: nextPageInfo, completion: { (result) in
                 switch result {
 
                 case .success(let data):
                     guard let data = data else { return }
-                    self.dataArray.append(contentsOf: data)
+                    self.searchDataArray.append(contentsOf: data)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
@@ -52,7 +52,7 @@ class SearchResultViewModel {
                 switch result {
                 case .success(let data):
                     if let data = data {
-                        self.dataArray = data
+                        self.searchDataArray = data
                     }
 
                 case .failure(let error):
@@ -71,17 +71,16 @@ class SearchResultViewModel {
 extension SearchResultViewModel: ResultViewModelProtocol {
 
     var resultArray: [ResultDataProtocol] {
-        return dataArray
+        return searchDataArray
     }
 
     var numberOfItemsInSection: Int {
-        return dataArray.count
+        return searchDataArray.count
     }
 
     func getPhotosData(isTurnPage: Bool, completion: @escaping (() -> Void)) {
 
         if isTurnPage {
-            self.currentPage += 1
             self.loadMoreData {
                 completion()
             }
