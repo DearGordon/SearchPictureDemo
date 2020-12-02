@@ -33,14 +33,6 @@ class ResultCollectionViewCellViewModel {
     private func favoritedAction() {
         FavoritedListManager.shared.favoritedAction(with: self.resultData)
     }
-
-    private func addFavorited() {
-        
-    }
-
-    private func removeFavorited() {
-
-    }
     
 }
 

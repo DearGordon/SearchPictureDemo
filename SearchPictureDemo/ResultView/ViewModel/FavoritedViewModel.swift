@@ -41,7 +41,6 @@ class FavoritedViewModel: NSObject {
 extension FavoritedViewModel: ResultViewModelProtocol {
 
     var resultArray: [ResultDataProtocol] {
-        //TODO: 不能這樣做，因為要等待resultArray取得資料會有時間差
         return self.dataArray
     }
 

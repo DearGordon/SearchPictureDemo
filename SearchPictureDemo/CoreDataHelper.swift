@@ -44,13 +44,11 @@ class CoreDataHelper: NSObject {
     func delete(_ data: ResultData) {
         let moc = self.managedObjectContext()
         moc.delete(data)
-        print("Remove data from CoreData and will save in next Line")
         self.saveContext(completion: nil)
     }
     
     func saveContext(completion: ((Result<Bool, Error>) -> Void)?) {
         let context = persistentContainer.viewContext
-        //FIXME:  context.hasChanges 在我的最愛頁面沒有觸發hasChange
 
         if context.hasChanges {
             do {

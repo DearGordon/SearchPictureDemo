@@ -48,7 +48,6 @@ class ResultViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("ViewWillAppear")
         self.loadPhotosData()
     }
 
@@ -58,17 +57,10 @@ class ResultViewController: UIViewController {
         case .Searching(searchInfo: let searchInfo):
             self.viewModel = SearchResultViewModel(searchInfo: searchInfo)
             self.setRefreshControl()
-            self.setLoadMoreData()
 
         case .Favorited:
             self.viewModel = FavoritedViewModel()
         }
-    }
-
-    private func setLoadMoreData() {
-
-
-
     }
 
     private func setCollectionView() {
@@ -90,9 +82,6 @@ class ResultViewController: UIViewController {
         self.collectionView.collectionViewLayout = layout
     }
 
-    //TODO: 滑到最底時，秀出下一頁
-    //https://franksios.medium.com/ios-uitableview-%E5%88%86%E9%A0%81-%E6%BB%91%E8%87%B3%E5%88%97%E8%A1%A8%E6%9C%80%E5%BE%8C%E4%B8%80%E7%AD%86%E4%B8%8A%E6%8B%89%E8%BC%89%E5%85%A5%E6%9B%B4%E5%A4%9A%E8%B3%87%E6%96%99-loading-more-69ee25eae045
-    
     private func setRefreshControl() {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(freshthAction), for: .valueChanged)
@@ -100,8 +89,10 @@ class ResultViewController: UIViewController {
     }
     
     @objc func freshthAction() {
-        self.loadPhotosData()
+        self.collectionView.reloadData()
     }
+
+
 
     private func loadPhotosData() {
         self.viewModel?.getPhotosData(isTurnPage: false, completion: {
@@ -154,7 +145,6 @@ extension ResultViewController: UIScrollViewDelegate {
 
         if scrollView.contentSize.height - (scrollView.frame.size.height + scrollView.contentOffset.y) <= -10 {
 
-            print("使用者已滑到最底")
             switch self.resultMode {
             case .Searching(_):
                 self.loadingMoreData()

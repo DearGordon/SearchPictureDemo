@@ -14,11 +14,7 @@ class FavoritedListManager {
 
     private init() {}
 
-    var favoritedList: [ResultData] = [] {
-        didSet {
-            print("FavoritedList did change to \(favoritedList.count)")
-        }
-    }
+    var favoritedList: [ResultData] = []
 
     func getFavoritListFromCoreData(completion: (() -> Void)?) {
 
@@ -26,9 +22,8 @@ class FavoritedListManager {
             switch result {
             case .success(let resultDatas):
                 self.favoritedList = resultDatas
-                print("favoirted.count = \(self.favoritedList.count)")
-            case .failure(_):
-                print("Didn't get data from CoreData")
+            case .failure(let error):
+                print("Didn't get data from CoreData \(error.localizedDescription)")
             }
             completion?()
         }
@@ -45,22 +40,22 @@ class FavoritedListManager {
     }
 
     func favoritedAction(with data: ResultDataProtocol) {
-        let resultData = self.castingToResultData(with: data)
 
-        guard let dataIndex = self.hasSameDataIndex(with: resultData) else {
+        guard let dataIndex = self.hasSameDataIndex(with: data) else {
+            let resultData = self.castingToResultData(with: data)
             self.favoritedList.append(resultData)
-            print("Did add data to FavoritedList")
+            CoreDataHelper.shared.saveContext(completion: nil)
             return
         }
+
         let removed = self.favoritedList.remove(at: dataIndex)
-        print("Removed data from favoritedList")
         CoreDataHelper.shared.delete(removed)
     }
 
     private func castingToResultData(with data: ResultDataProtocol) -> ResultData {
         //if can't casting to ResultData, means data is from SearchResult
         if let data = data as? ResultData {
-             print("pressed from Favorited Page ")
+            print("pressed from Favorited Page ")
             return data
         } else {
             print("Pressed from Search Page")
