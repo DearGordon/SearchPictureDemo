@@ -40,11 +40,6 @@ class SearchViewController: UIViewController {
         self.detectTextFieldChanged()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.viewModel?.pushToResultPage(from: self)
-    }
-
     func detectTextFieldChanged() {
         let textFieldArray = [searchTextField, numberOfCellTextField]
         for textField in textFieldArray {

@@ -35,14 +35,14 @@ class ResultViewController: UIViewController {
     /// 設定Result結果
     var resultMode: ResultMode = .Favorited {
         didSet {
-            self.setModel(resultMode)
+            self.setModel(to: resultMode)
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.setModel(resultMode)
+        self.setModel(to: resultMode)
         self.setCollectionView()
     }
 
@@ -51,8 +51,7 @@ class ResultViewController: UIViewController {
         self.loadPhotosData()
     }
 
-    private func setModel(_ mode: ResultMode) {
-
+    private func setModel(to mode: ResultMode) {
         switch mode {
         case .Searching(searchInfo: let searchInfo):
             self.viewModel = SearchResultViewModel(searchInfo: searchInfo)
@@ -89,15 +88,12 @@ class ResultViewController: UIViewController {
     }
     
     @objc func freshthAction() {
-        self.collectionView.reloadData()
+        self.loadPhotosData()
     }
-
-
 
     private func loadPhotosData() {
         self.viewModel?.getPhotosData(isTurnPage: false, completion: {
             DispatchQueue.main.async {
-
                 self.collectionView.reloadData()
                 self.collectionView.refreshControl?.endRefreshing()
             }
@@ -111,8 +107,6 @@ class ResultViewController: UIViewController {
             }
         })
     }
-    
-    
 }
 
 extension ResultViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -134,7 +128,6 @@ extension ResultViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
         return cell
     }
-
 }
 
 
