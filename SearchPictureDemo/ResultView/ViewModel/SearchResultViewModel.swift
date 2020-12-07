@@ -21,7 +21,7 @@ class SearchResultViewModel {
 
     private func loadMoreData(completion: @escaping (() -> Void)) {
         self.currentPage += 1
-        let model = SearchPictureRequestModel(text: self.searchInfo.text, per_page: self.searchInfo.perPage, page: self.searchInfo.page)
+        let model = SearchPictureRequestModel(text: self.searchInfo.text, per_page: self.searchInfo.perPage, page: self.currentPage)
         ApiManager.shared.getData(api: .searchPicture(model), completion: { (result) in
             switch result {
 
