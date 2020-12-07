@@ -67,29 +67,4 @@ class FavoritedListManager {
         }
     }
 
-//    func favoritedAction(with data: ResultDataProtocol) {
-//
-//        var resultData: ResultData?
-//        if let data = data as? ResultData {
-//            resultData = data
-//        } else {
-//            let moc = CoreDataHelper.shared.managedObjectContext()
-//            let newResultData = ResultData(context: moc)
-//            newResultData.title = data.pictureTitle
-//            newResultData.url = data.pictureUrl
-//            resultData = newResultData
-//        }
-//
-//        //if can't casting to ResultData, means data is from SearchResult
-//        guard let dataIndex = self.hasSameDataIndex(with: data) else {
-//            //新增
-//            if let data = resultData {
-//                self.favoritedList.append(data)
-//            }
-//            return
-//        }
-//        let removeData = self.favoritedList.remove(at: dataIndex)
-//        CoreDataHelper.shared.delete(removeData)
-//    }
-
 }
