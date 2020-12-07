@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="aII-gR-Eob">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="aII-gR-Eob">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -30,7 +32,7 @@
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BBX-DP-gaY">
                                         <rect key="frame" x="0.0" y="108" width="276" height="34"/>
-                                        <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" systemColor="systemRedColor"/>
                                         <state key="normal" title="搜尋">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -41,15 +43,17 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Voq-bM-a8I" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="UzF-nn-AGJ"/>
                             <constraint firstItem="Voq-bM-a8I" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="2/3" id="Ws2-jy-SOM"/>
                             <constraint firstItem="Voq-bM-a8I" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="uss-Ns-wBa"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="JKE-IP-Myi"/>
+                    <navigationItem key="navigationItem" id="JKE-IP-Myi">
+                        <barButtonItem key="backBarButtonItem" title="返回" id="l67-zC-1Sa"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="numberOfCellTextField" destination="Lrd-6M-hEc" id="fhR-dT-RVQ"/>
                         <outlet property="searchButton" destination="BBX-DP-gaY" id="Pkh-GF-oHn"/>
@@ -60,7 +64,7 @@
             </objects>
             <point key="canvasLocation" x="1874" y="552"/>
         </scene>
-        <!--Item-->
+        <!--Result View Controller-->
         <scene sceneID="gJB-1R-IhW">
             <objects>
                 <viewController storyboardIdentifier="ResultViewController" id="mI8-lU-iOi" customClass="ResultViewController" customModule="SearchPictureDemo" customModuleProvider="target" sceneMemberID="viewController">
@@ -70,7 +74,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="AhS-Ke-COW">
                                 <rect key="frame" x="0.0" y="44" width="414" height="769"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vIn-xO-mH0">
                                     <size key="itemSize" width="100" height="100"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -80,16 +84,16 @@
                                 <cells/>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Cs5-2B-2Ur"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="AhS-Ke-COW" firstAttribute="leading" secondItem="Cs5-2B-2Ur" secondAttribute="leading" id="0aa-5D-E7X"/>
                             <constraint firstItem="AhS-Ke-COW" firstAttribute="top" secondItem="Cs5-2B-2Ur" secondAttribute="top" id="8Qy-KP-HWF"/>
                             <constraint firstItem="Cs5-2B-2Ur" firstAttribute="bottom" secondItem="AhS-Ke-COW" secondAttribute="bottom" id="Ayw-e5-oFQ"/>
                             <constraint firstItem="Cs5-2B-2Ur" firstAttribute="trailing" secondItem="AhS-Ke-COW" secondAttribute="trailing" id="nCQ-tI-3B6"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Cs5-2B-2Ur"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="dkA-RU-tpA"/>
+                    <tabBarItem key="tabBarItem" systemItem="featured" id="dkA-RU-tpA"/>
                     <connections>
                         <outlet property="collectionView" destination="AhS-Ke-COW" id="cdd-nK-oMK"/>
                     </connections>
@@ -116,11 +120,11 @@
             </objects>
             <point key="canvasLocation" x="-349" y="974"/>
         </scene>
-        <!--Item-->
+        <!--Navigation Controller-->
         <scene sceneID="7Yc-dF-KBf">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hC8-fF-jrg" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="xJF-6e-goa"/>
+                    <tabBarItem key="tabBarItem" systemItem="search" id="xJF-6e-goa"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="EW7-x5-xvh">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -136,4 +140,12 @@
             <point key="canvasLocation" x="746" y="552"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>
