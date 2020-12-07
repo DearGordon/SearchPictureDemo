@@ -40,8 +40,6 @@ extension SearchViewModel: SearchViewModelProtocol {
     func pushToResultPage(from viewController: SearchViewController) {
 
         guard let vc = self.initResultViewController() else { return }
-        //TODO: 這裡不會是datasource
         viewController.navigationController?.pushViewController(vc, animated: true)
-
     }
 }
